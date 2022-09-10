@@ -3,12 +3,19 @@ import type { AppType } from "next/dist/shared/lib/utils";
 import { SessionProvider } from "next-auth/react";
 import Layout from "../ui/layout";
 import { useReducer } from "react";
-import { appState, AppTypeKeys, initialAppState } from "../reducer/app";
+import { appState, AppTypeKeys, initialAppState } from "../reducers/app";
+import { getFavoriteCookie } from "../functions/cookie";
 
 const MyApp: AppType = ({
   Component,
   pageProps: { session, ...pageProps },
 }) => {
+  const favoriteCookie = getFavoriteCookie();
+
+  if(favoriteCookie) {
+    initialAppState.favorites = favoriteCookie;
+  }
+
   const [appComponentState, dispatch] = useReducer(appState, initialAppState);
 
   const addFavorite = (index: string) => {

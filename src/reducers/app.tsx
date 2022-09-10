@@ -1,3 +1,5 @@
+import { setFavoriteCookie } from "../functions/cookie";
+
 export interface IAppState {
   favorites?: string[];
 }
@@ -21,7 +23,7 @@ export type AppActionType =
   | IAddFavorite
   | IRemoveFavorite;
 
-export const initialAppState = {};
+export const initialAppState: IAppState = {};
 
 export const appState = (state: IAppState = initialAppState, action: AppActionType) => {
   switch (action.type) {
@@ -32,17 +34,17 @@ export const appState = (state: IAppState = initialAppState, action: AppActionTy
       }
       if(newFavList.indexOf(action.data) < 0) {
         newFavList.push(action.data)
+        setFavoriteCookie(newFavList);
       }
       return {...state, favorites: newFavList };
     case AppTypeKeys.REMOVE_FAVORITE:
-      let newRedFavList: string[] | undefined = state.favorites;
-      console.log("FavList1: ", newRedFavList);
+      let newRedFavList: string[] = state.favorites ? state.favorites : [];
       if(state.favorites && state.favorites.length > 1) {
-        newRedFavList?.slice(state.favorites?.indexOf(action.data), 1)
+        newRedFavList?.splice(state.favorites?.indexOf(action.data), 1)
       } else if(state.favorites && state.favorites.length == 1 && state.favorites[0] == action.data) {
         newRedFavList = [];
       }
-      console.log("FavList2: ", newRedFavList);
+      setFavoriteCookie(newRedFavList);
       return {...state, favorites: newRedFavList};
     default:
       return state;
