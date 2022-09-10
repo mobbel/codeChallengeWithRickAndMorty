@@ -20,4 +20,7 @@ export default defineNextConfig({
     locales: ["de"],
     defaultLocale: "de",
   },
+  images: {
+    domains: ['rickandmortyapi.com']
+  }
 });

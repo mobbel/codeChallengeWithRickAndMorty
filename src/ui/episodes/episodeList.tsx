@@ -11,9 +11,10 @@ interface EpisodeListProps {
 
 const EpisodeList = (props: EpisodeListProps) => {
   const generateLinkList = (list: EpisodeProperties[]) => {
-    const linkList = list.map(linkItem => {
+    const linkList = list.map((linkItem, index) => {
       return (
         <EpisodeLinkItem
+          key={`episode_${index}`}
           id={linkItem.id}
           name={linkItem.name}
         />

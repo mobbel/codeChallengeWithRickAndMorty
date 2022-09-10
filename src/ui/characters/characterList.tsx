@@ -12,9 +12,10 @@ interface CharacterListProps {
 
 const CharacterList = (props: CharacterListProps) => {
   const generateLinkList = (list: CharacterProperties[]) => {
-    const linkList = list.map(linkItem => {
+    const linkList = list.map((linkItem, index) => {
       return (
         <CharacterLinkItem
+          key={`char_${index}`}
           id={linkItem.id}
           name={linkItem.name}
           favoriteList={props.favoriteList}

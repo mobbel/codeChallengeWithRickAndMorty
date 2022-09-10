@@ -7,7 +7,7 @@ interface IepisodeLinkItem {
 
 const EpisodeLinkItem = (props: IepisodeLinkItem) => {
   return (
-    <div className="px-4 py-1 sm:px6" key={`char_${props.id}`}>
+    <div className="px-4 py-1 sm:px6">
       <Link href={`/episodes/${props.id}`}>
         <a>{props.name}</a>
       </Link>

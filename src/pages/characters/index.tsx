@@ -1,3 +1,4 @@
+import { GetStaticProps } from "next";
 import CharacterList from "../../ui/characters/characterList";
 
 interface ICharacterPageProperties {
@@ -11,7 +12,7 @@ interface ICharacterPageProperties {
   favoriteList: string[];
 }
 
-const characters = (properties: ICharacterPageProperties) => {
+const Characters = (properties: ICharacterPageProperties) => {
   console.log("Properties: ", properties);
   
 
@@ -29,7 +30,7 @@ const characters = (properties: ICharacterPageProperties) => {
   );
 };
 
-export const getStaticProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   const charactersRes = await fetch(
     "https://rickandmortyapi.com/graphql",
     {
@@ -69,4 +70,4 @@ export const getStaticProps = async () => {
   }
 }
 
-export default characters;
+export default Characters;

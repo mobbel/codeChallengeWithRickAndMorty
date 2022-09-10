@@ -1,13 +1,22 @@
+import { GetStaticProps } from "next";
 import CharacterList from "../../ui/characters/characterList";
 
+interface IEpisodeDetail {
+  name: string;
+  characters: {
+    id: string;
+    name: string;
+  }[];
+}
+
 interface IcharacterDetailsProps {
-  episodeDetail: any
+  episodeDetail: IEpisodeDetail;
   addFavorite: (index: string) => void;
   removeFavorite: (index: string) => void;
   favoriteList: string[];
 }
 
-const episodeDetails = (props: IcharacterDetailsProps) => {
+const EpisodeDetails = (props: IcharacterDetailsProps) => {
   return (
     <div className="overflow-hidden bg-white shadow sm:rounded-lg">
       <div className="px-4 py-5 sm:px-6 clearfix">
@@ -26,7 +35,7 @@ const episodeDetails = (props: IcharacterDetailsProps) => {
   );
 }
 
-export const getStaticProps = async ({params}: any) => {
+export const getStaticProps: GetStaticProps = async ({params}) => {
   const episodeDetail = await fetch(
     "https://rickandmortyapi.com/graphql",
     {
@@ -37,7 +46,7 @@ export const getStaticProps = async ({params}: any) => {
       body: JSON.stringify({
         query: `
           query {
-            episode(id: ${params.episodeId}) {
+            episode(id: ${params?.episodeId}) {
               name,
               characters {
                 id,
@@ -67,4 +76,4 @@ export const getStaticPaths = () => {
   }
 }
 
-export default episodeDetails;
+export default EpisodeDetails;

@@ -1,7 +1,11 @@
+import { GetStaticProps } from "next";
 import EpisodeList from "../../ui/episodes/episodeList";
 
 interface IEpisodesPageProperties {
-  episodes: any;
+  episodes: {
+    id: string;
+    name: string;
+  }[];
   pages: string;
   addFavorite: (index: string) => void;
   removeFavorite: (index: string) => void;
@@ -22,7 +26,7 @@ const Episodes = (properties: IEpisodesPageProperties) => {
   );
 };
 
-export const getStaticProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   const episodesRes = await fetch(
     "https://rickandmortyapi.com/graphql",
     {
