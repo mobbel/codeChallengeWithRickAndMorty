@@ -1,4 +1,5 @@
 import { setFavoriteCookie } from "../functions/cookie";
+import { saveFavoritesToDB } from "../functions/favorites";
 
 export interface IAppState {
   favorites?: string[];
@@ -35,6 +36,7 @@ export const appState = (state: IAppState = initialAppState, action: AppActionTy
       if(newFavList.indexOf(action.data) < 0) {
         newFavList.push(action.data)
         setFavoriteCookie(newFavList);
+        saveFavoritesToDB(newFavList);
       }
       return {...state, favorites: newFavList };
     case AppTypeKeys.REMOVE_FAVORITE:
@@ -45,6 +47,7 @@ export const appState = (state: IAppState = initialAppState, action: AppActionTy
         newRedFavList = [];
       }
       setFavoriteCookie(newRedFavList);
+      saveFavoritesToDB(newRedFavList);
       return {...state, favorites: newRedFavList};
     default:
       return state;
