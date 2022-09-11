@@ -8,5 +8,16 @@ export const saveFavoritesToDB = (favorites: string[]) => {
       })
     }
   )
+}
 
+export const getFavoritesFromDB = async () => {
+  const favorites = await fetch("/api/favorites").then((res) => {
+    return res.json();
+  })
+  .then((result) => {
+    return result.favorites;
+  });
+
+  const returnCode: string[] = favorites ? favorites.split(":") : [];
+  return returnCode;
 }

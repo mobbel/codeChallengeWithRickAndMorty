@@ -7,7 +7,10 @@ export interface IAppState {
 
 export enum AppTypeKeys {
   ADD_FAVORITE = "app/ADD_FAVORITE",
-  REMOVE_FAVORITE = "app/REMOVE_FAVORITE"
+  REMOVE_FAVORITE = "app/REMOVE_FAVORITE",
+  SET_FAVORITE_BY_COOKIE = "app/SET_FAVORITE_BY_COOKIE",
+  SET_FAVORITE_BY_DATABASE = "app/SET_FAVORITE_BY_DATABASE",
+  MERGE_FAVORITE = "app/MERGE_FAVORITE"
 }
 
 export interface IAddFavorite {
@@ -20,9 +23,27 @@ export interface IRemoveFavorite {
   data: string;
 }
 
+export interface ISetFavoriteByCookie {
+  type: AppTypeKeys.SET_FAVORITE_BY_COOKIE,
+  data: string[];
+}
+
+export interface ISetFavoriteByDatabase {
+  type: AppTypeKeys.SET_FAVORITE_BY_DATABASE,
+  data: string[];
+}
+
+export interface IMergeFavorite {
+  type: AppTypeKeys.MERGE_FAVORITE,
+  data: string[];
+}
+
 export type AppActionType =
   | IAddFavorite
-  | IRemoveFavorite;
+  | IRemoveFavorite
+  | ISetFavoriteByCookie
+  | ISetFavoriteByDatabase
+  | IMergeFavorite;
 
 export const initialAppState: IAppState = {};
 
@@ -49,6 +70,18 @@ export const appState = (state: IAppState = initialAppState, action: AppActionTy
       setFavoriteCookie(newRedFavList);
       saveFavoritesToDB(newRedFavList);
       return {...state, favorites: newRedFavList};
+    case AppTypeKeys.MERGE_FAVORITE:
+      console.log("Merge: ", action.data);
+      
+      setFavoriteCookie(action.data);
+      saveFavoritesToDB(action.data);
+      return {...state, favorites: action.data}
+    case AppTypeKeys.SET_FAVORITE_BY_COOKIE:
+      saveFavoritesToDB(action.data);
+      return {...state, favorites: action.data}
+    case AppTypeKeys.SET_FAVORITE_BY_DATABASE:
+      setFavoriteCookie(action.data);
+      return {...state, favorites: action.data}
     default:
       return state;
   }

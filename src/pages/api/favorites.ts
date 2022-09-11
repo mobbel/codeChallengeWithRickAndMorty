@@ -20,7 +20,7 @@ const favorites = async (req: NextApiRequest, res: NextApiResponse) => {
     
     
     prisma.user.update({
-      where: { id: session.user?.id},
+      where: { id: session.user?.id },
       data: { favorites: JSON.parse(req.body).favoriteList}
     }).catch(error => {
       console.log(error);
@@ -30,7 +30,17 @@ const favorites = async (req: NextApiRequest, res: NextApiResponse) => {
       content:
         "This is protected content. You can access this content because you are signed in.",
     });
-  } else {
+  } 
+  else if (session && req.method === "GET") {
+    const result = await prisma.user.findUnique({
+      where: { id: session.user?.id },
+      select: {
+        favorites: true,
+      }
+    });
+    res.send(result);
+  }
+  else {
     res.send({
       error:
         "You must be signed in to view the protected content on this page.",
