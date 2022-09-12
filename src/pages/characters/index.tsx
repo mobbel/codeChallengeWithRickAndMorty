@@ -1,5 +1,8 @@
 import { GetStaticProps } from "next";
+import { useCallback, useReducer } from "react";
+import { characterState, CharacterTypeKeys, initialCharacterState } from "../../reducers/character";
 import CharacterList from "../../ui/characters/characterList";
+import Navigation from "../../ui/characters/navigation";
 
 interface ICharacterPageProperties {
   characters: {
@@ -13,8 +16,46 @@ interface ICharacterPageProperties {
 }
 
 const Characters = (properties: ICharacterPageProperties) => {
-  console.log("Properties: ", properties);
+  initialCharacterState.characters = properties.characters;
+  const [characterComponentState, dispatch] = useReducer(characterState, initialCharacterState);
+
+  const loadPage = async (pageNumber: number) => {
+    const charactersRes = await fetch(
+      "https://rickandmortyapi.com/graphql",
+      {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          query: `
+            query {
+              characters(page: ${pageNumber}) {
+                results {
+                  id,
+                  name
+                }
+              }
+            }
+          `,
+        }),
+      }
+    )
+    .then((res) => res.json())
+    .then((result) => {return result.data.characters});
   
+
+    console.log("Chars: ", charactersRes.results);
+    
+    dispatch({
+      type: CharacterTypeKeys.SET_PAGE,
+      data: pageNumber
+    });
+    dispatch({
+      type: CharacterTypeKeys.SET_CHARACTERS,
+      data: charactersRes.results
+    })
+  }
 
   return (
     <div className="overflow-hidden bg-white shadow sm:rounded-lg">
@@ -22,10 +63,17 @@ const Characters = (properties: ICharacterPageProperties) => {
         <h2 className="text-lg font-medium leading-6 text-gray-900">Characters overview Page</h2>
       </div>
       <CharacterList
-        characters={properties.characters}
+        characters={characterComponentState.characters}
         favoriteList={properties.favoriteList}
       />
       <div>Pages: {properties.pages}</div>
+      <div>
+        <Navigation
+          page={characterComponentState.page}
+          pages={properties.pages}
+          loadPage={loadPage}
+        />
+      </div>
     </div>
   );
 };
