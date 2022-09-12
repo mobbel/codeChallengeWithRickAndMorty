@@ -1,5 +1,5 @@
 import { GetStaticProps } from "next";
-import { useCallback, useReducer } from "react";
+import { useReducer } from "react";
 import { characterState, CharacterTypeKeys, initialCharacterState } from "../../reducers/character";
 import CharacterList from "../../ui/characters/characterList";
 import Navigation from "../../ui/characters/navigation";

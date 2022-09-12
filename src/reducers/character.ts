@@ -15,7 +15,10 @@ export interface ISetPage {
 
 export interface ISetCharacters {
   type: CharacterTypeKeys.SET_CHARACTERS,
-  data: any,
+  data: {
+    id: string;
+    name: string;
+  }[],
 }
 
 export const initialCharacterState: ICharacterPage = {
