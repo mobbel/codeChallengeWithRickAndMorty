@@ -15,9 +15,6 @@ const favorites = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getServerAuthSession({ req, res });
 
   if (session && req.method === "PUT") {
-    console.log("Session: ", session);
-    console.log("Body: ", JSON.parse(req.body));
-    
     
     prisma.user.update({
       where: { id: session.user?.id },

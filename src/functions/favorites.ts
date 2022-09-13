@@ -12,8 +12,6 @@ export const saveFavoritesToDB = (favorites: string[]) => {
 
 export const getFavoritesFromDB = async () => {
   const favorites = await fetch("/api/favorites").then((res) => {
-    console.log("res: ", res);
-    
     return res.json();
   })
   .then((result) => {

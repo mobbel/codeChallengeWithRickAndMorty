@@ -44,9 +44,6 @@ const Characters = (properties: ICharacterPageProperties) => {
     .then((res) => res.json())
     .then((result) => {return result.data.characters});
   
-
-    console.log("Chars: ", charactersRes.results);
-    
     dispatch({
       type: CharacterTypeKeys.SET_PAGE,
       data: pageNumber

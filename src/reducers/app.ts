@@ -71,8 +71,6 @@ export const appState = (state: IAppState = initialAppState, action: AppActionTy
       saveFavoritesToDB(newRedFavList);
       return {...state, favorites: newRedFavList};
     case AppTypeKeys.MERGE_FAVORITE:
-      console.log("Merge: ", action.data);
-      
       setFavoriteCookie(action.data);
       saveFavoritesToDB(action.data);
       return {...state, favorites: action.data}
