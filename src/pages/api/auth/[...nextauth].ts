@@ -4,7 +4,13 @@ import { env } from "../../../env/server.mjs";
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import { PrismaClient } from "@prisma/client"
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient({
+  datasources: {
+    db: {
+      url: 'file:./db.sqlite',
+    },
+  },
+})
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
