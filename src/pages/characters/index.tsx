@@ -63,7 +63,6 @@ const Characters = (properties: ICharacterPageProperties) => {
         characters={characterComponentState.characters}
         favoriteList={properties.favoriteList}
       />
-      <div>Pages: {properties.pages}</div>
       <div>
         <Navigation
           page={characterComponentState.page}
